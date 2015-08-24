@@ -48,7 +48,7 @@
                     <div class="clear"></div>
                 </div>
                 <div class="block-fluid">
-                    <form action="index.php?controller=user&action=insert_user" method="POST">
+                    <form action="index.php?controller=user&action=insert_user" enctype="multipart/form-data" method="POST">
                     	<div class="row-form">
                             <div class="span3">Username:</div>
                             <div class="span9"><input type="text" name="username" placeholder="some text value..."/></div>
@@ -66,7 +66,7 @@
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Avatar:</div>
-                            <div class="span9"><input type="file" name="file" size="19"></div>
+                            <div class="span9"><input type="file" name="avatar" ></div>
                             <div class="clear"></div>
                         </div> 
                         <div class="row-form">

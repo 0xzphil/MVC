@@ -9,7 +9,7 @@
 
     <div class="admin">
         <div class="image">
-            <img src="<?php echo PATH;?>/public/img/users/avatar.jpg" class="img-polaroid"/>
+            <img src="<?php echo PATH; ?>/uploads/user/<?php echo $_SESSION['username']; ?>.png"  height="50" width="50" class="img-polaroid"/>
         </div>
         <ul class="control">
             <li><span class="icon-cog"></span> <a href="index.php?controller=user&action=edit_starting&id=<?php echo $_SESSION['id']; ?>">Update Profile</a></li>

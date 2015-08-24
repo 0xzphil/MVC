@@ -101,6 +101,19 @@
 			return $row['0'];
 		}
 
+		public function delete_all(){
+
+		}
+
+		public function activate_all(){
+
+		}
+		
+		public function deactivate_all(){
+
+		}
+
+
 		public function find_something(&$sql, $fields, $table, $limit, $offset){
 			if(isset($_GET['search'])){
 				$sql = "SELECT $fields FROM  $table WHERE {$this->element['1']} LIKE '%{$_GET['search']}%' ORDER BY id DESC LIMIT $limit OFFSET $offset";

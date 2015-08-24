@@ -32,6 +32,9 @@
 					'{$this->activate}',
 					'{$this->time}',
 					'{$this->time}')";
+			
+
+			$this->func->upload_image();
 			$this->conn->query($sql);
 			return 1;
 
@@ -45,7 +48,10 @@
 					time_updated ='{$this->time}'
 					WHERE id='{$_GET['id']}'
 			";
-			echo $sql;
+			
+			//
+			$this->func->upload_image();
+
 			$this->conn->query($sql); 
 			return 1;
 		}

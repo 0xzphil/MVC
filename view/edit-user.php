@@ -49,7 +49,7 @@
                     <div class="clear"></div>
                 </div>
                 <div class="block-fluid">
-                    <form action="index.php?controller=user&action=edited_user&id=<?php echo $_GET['id']; ?>" method="POST">
+                    <form action="index.php?controller=user&action=edited_user&id=<?php echo $_GET['id']; ?>" enctype="multipart/form-data" method="POST">
                     	<div class="row-form">
                             <div class="span3">Username:</div>
                             <div class="span9"><input type="text" name="username" value="<?php echo $username;?>" /></div>
@@ -68,8 +68,8 @@
                     	<div class="row-form">
                             <div class="span3">Upload Avatar:</div>
                             <div class="span9">
-                            <img src="img/users/avatar.jpg" /><br/>
-                            <input type="file" name="file" size="19">
+                            <img src="<?php echo PATH; ?>/uploads/user/<?php echo $_SESSION['username']; ?>.png"  height="50" width="50" ><br/>
+                            <input type="file" name="avatar">
                             </div>
                             <div class="clear"></div>
                         </div> 

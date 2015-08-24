@@ -13,7 +13,7 @@ class Func
 		if(isset($_POST['login'])){
 			$this->model = new Base_Model();
 			$this->conn = $this->model->connect_db();
-			$sql = "SELECT id, username, password FROM users WHERE rank= 9";
+			$sql = "SELECT id, username, password FROM users";
 			$query = $this->conn->query($sql);
 			while ($row = $query->fetch_array(MYSQLI_NUM)) {
 				if($_POST['username'] == $row['1'] && md5($_POST['password'])== $row['2']){
@@ -69,7 +69,14 @@ class Func
 		//
 	}
 
-
+	function upload_image(){
+		$upload_dir= "uploads/".$_GET['controller']."/";
+		$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
+		$imgfileType = pathinfo($file_dir, PATHINFO_EXTENSION);
+		$_FILES['avatar']['name'] = $_POST['username'].".".$imgfileType;
+		$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
+		move_uploaded_file($_FILES['avatar']['tmp_name'], $file_dir);
+	}
 }
 
 
