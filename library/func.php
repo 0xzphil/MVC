@@ -20,6 +20,7 @@ class Func
 					return $row['0'];
 				} 
 			}
+
 		} 
 	}
 
@@ -35,7 +36,6 @@ class Func
 				setcookie("password", $_POST['password'], time()+1000, "/");
 				setcookie("id", $id, time()+1000, "/");
 			}
-			
 			header("Location: ".PATH."/index.php?controller=category&action=show&page=1");
 		}
 
@@ -59,6 +59,14 @@ class Func
 			$_SESSION['id'] = $_COOKIE['id'];
 			header("Location: ".PATH."/index.php?controller=user&action=home_viewing");
 		}
+	}
+
+	function get_time_zone($gmt){
+		//
+		date_default_timezone_set("America/Thule");
+		$gmtime = gmdate("y/m/d h:i:s", time() + $gmt*3600);
+		return $gmtime;
+		//
 	}
 
 

@@ -24,7 +24,7 @@
 		public function edited_user(){
 			$this->model = new User_Model($_POST['username'], $_POST['password'], $_POST['email'], $_POST['activate']);
 			if($this->model->edited_user()){
-			header("Location: ".PATH."/index.php?controller=user&action=edit_starting&id=".$_GET['id']."&result=ok");
+				header("Location: ".PATH."/index.php?controller=user&action=edit_starting&id=".$_GET['id']."&result=ok");
 			}
 		}
 		public function edit_starting(){

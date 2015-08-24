@@ -4,6 +4,8 @@
 	* 
 	*/
 	use controllers\Base;
+	use library\Func;
+
 	class Base_Model extends \mysqli
 	{	
 		public $conn; // connect data
@@ -11,12 +13,17 @@
 		public $sort; // using to sort
 		public $trend; // using to sort
 		public $controller;
+		public $func;
+		public $time;
+
 		function __construct(){
 			//
 			$this->conn=new \mysqli(LOCALHOST, USERNAME, PASSWORD, DATABASE);
 			if($this->conn->connect_error){
 				die("Connection failed". $this->conn->connect_error);
 			}
+			$this->func= new Func();
+			$this->time= $this->func->get_time_zone("+7");
 		}
 		/*
 		* Function to connect database

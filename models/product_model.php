@@ -38,8 +38,8 @@
 					'{$this->price}',
 					'{$this->details}',
 					'{$this->activate}',
-					'5555-11-11',
-					'5555-11-11'
+					'{$this->time}',
+					'{$this->time}'
 					)";
 			$this->conn->query($sql);
 			return 1;

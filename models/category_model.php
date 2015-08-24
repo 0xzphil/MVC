@@ -22,8 +22,8 @@
 			 					time_updated) 
 					VALUES(     '{$this->category_name}', 
 						 		'{$this->activate}', 
-						 		'5555-11-11', 
-						 		'5555-11-11')";
+						 		'{$this->time}', 
+						 		'{$this->time}')";
 			$this->conn->query($sql);
 			return 1;
 		}
@@ -32,7 +32,8 @@
 			$sql = "UPDATE 
 					categories
 					SET category_name = '{$this->category_name}',
-						activate ='{$this->activate}'
+						activate ='{$this->activate}',
+						time_updated = '{$this->time}'
 					WHERE id='{$_GET['id']}'
 					";
 			echo "$sql";

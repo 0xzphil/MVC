@@ -11,10 +11,5 @@
 	define("PASSWORD", "");
 	//
 	define("DATABASE", "data_mvc");
-	//
-	define("admin", "admin");
-	//
-	define("password", "9081726354");
-
 ?>
 	
