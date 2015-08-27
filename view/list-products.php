@@ -61,7 +61,7 @@
                 </div>
                 <div class="block-fluid table-sorting">
                     <a href="index.php?controller=product&action=add_product" class="btn btn-add">Add Product</a>
-                    <form action="index.php?controller=product&action=box" method="POST">
+                    <form action="index.php?controller=product&action=act" method="POST">
                     <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                         <thead>
                         <tr>
@@ -80,13 +80,6 @@
                             include "incfiles/page.php";
                         ?>
                     </table>
-                    <div class="bulk-action">
-                        <input type="hidden" name="table" value="products">
-                        <input type="submit" name="activate" value="Activate" class="btn btn-success">
-                        <input type="submit" name="delete" value="Delete" class="btn btn-danger">
-                        <input type="submit" name="deactivate" value="Deactivate" class="btn btn-danger">
-                    </form>
-                    </div><!-- /bulk-action-->
                     <?php
                         include "incfiles/paginate.php";
                     ?>

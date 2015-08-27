@@ -52,6 +52,7 @@
                     <form action="index.php?controller=product&action=insert_product" method="POST" enctype="multipart/form-data">
                     	<div class="row-form">
                             <div class="span3">Product Name:</div>
+                            <?php if(isset($error['product_name'])) echo $error['product_name']; ?>
                             <div class="span9"><input type="text" name="product_name" placeholder="some text value..."/></div>
                             <div class="clear"></div>
                         </div> 
@@ -72,21 +73,25 @@
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Price:</div>
+                            <?php if(isset($error['price'])) echo $error['price']; ?>
                             <div class="span9"><input type="text" name="price" placeholder="some text value..."/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Description:</div>
+                            <?php if(isset($error['details'])) echo $error['details']; ?>
                             <div class="span9"><textarea name="details" placeholder="Textarea field placeholder..."></textarea></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Image:</div>
-                            <div class="span9"><input type="file" name="file" size="19"></div>
+                            <?php if(isset($error['avatar'])) echo $error['avatar']; ?>
+                            <div class="span9"><input type="file" name="avatar" size="19"></div>
                             <div class="clear"></div>
                         </div> 
                         <div class="row-form">
                             <div class="span3">Activate:</div>
+                            <?php if(isset($error['activate'])) echo $error['activate']; ?>
                             <div class="span9">
                                 <select name="activate">
                                     <option value="0">choose a option...</option>

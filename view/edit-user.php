@@ -52,21 +52,25 @@
                     <form action="index.php?controller=user&action=edited_user&id=<?php echo $_GET['id']; ?>" enctype="multipart/form-data" method="POST">
                     	<div class="row-form">
                             <div class="span3">Username:</div>
-                            <div class="span9"><input type="text" name="username" value="<?php echo $username;?>" /></div>
+                            <?php if(isset($error['username'])) echo $error['username']; ?>
+                            <div class="span9"><input type="text" name="username" value="<?php echo $_POST['username'];?>" /></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Email:</div>
-                            <div class="span9"><input type="text" name="email" value="<?php echo $email;?>"/></div>
+                            <?php if(isset($error['email'])) echo $error['email']; ?>
+                            <div class="span9"><input type="text" name="email" value="<?php echo $_POST['email'];?>"/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Password:</div>
+                            <?php if(isset($error['password'])) echo $error['password']; ?>
                             <div class="span9"><input type="text" name="password" placeholder="some text value..."/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Avatar:</div>
+                            <?php if(isset($error['avatar'])) echo $error['avatar']; ?>
                             <div class="span9">
                             <img src="<?php echo PATH; ?>/uploads/user/<?php echo $_SESSION['username']; ?>.png"  height="50" width="50" ><br/>
                             <input type="file" name="avatar">
@@ -75,6 +79,7 @@
                         </div> 
                         <div class="row-form">
                             <div class="span3">Activate:</div>
+                            <?php if(isset($error['activate'])) echo $error['activate']; ?>
                             <div class="span9">
                                 <select name="activate">
                                     <option value="0">choose a option...</option>

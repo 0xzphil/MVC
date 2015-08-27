@@ -48,24 +48,28 @@
                     <div class="clear"></div>
                 </div>
                 <div class="block-fluid">
-                    <form action="index.php?controller=product&action=show&page=1" method="POST">
+                    <form action="index.php?controller=product&action=edited_product&id=<?php echo $_GET['id']; ?>" enctype="multipart/form-data" method="POST">
                     	<div class="row-form">
                             <div class="span3">Product Name:</div>
-                            <div class="span9"><input type="text" name="product_name" value="<?php echo $product_name; ?>"></div>
+                             <?php if(isset($error['product_name'])) echo $error['product_name']; ?>
+                            <div class="span9"><input type="text" name="product_name" value="<?php echo $_POST['product_name']; ?>"></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Price:</div>
-                            <div class="span9"><input type="text" name="price" value="<?php echo $price; ?>"></div>
+                             <?php if(isset($error['price'])) echo $error['price']; ?>
+                            <div class="span9"><input type="text" name="price" value="<?php echo $_POST['price']; ?>"></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Description:</div>
-                            <div class="span9"><textarea name="details"><?php echo $details; ?></textarea></div>
+                             <?php if(isset($error['details'])) echo $error['details']; ?>
+                            <div class="span9"><textarea name="details"><?php echo $_POST['details']; ?></textarea></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Image:</div>
+                             <?php if(isset($error['avatar'])) echo $error['avatar']; ?>
                             <div class="span9">
                             <img src="img/products/1.jpg" />
                             <img src="img/products/2.jpg" />
@@ -74,12 +78,13 @@
                             <img src="img/products/5.jpg" />
                             <img src="img/products/6.jpg" />
                             <br/>
-                            <input type="file" name="file" size="19">
+                            <input type="file" name="avatar">
                             </div>
                             <div class="clear"></div>
                         </div> 
                         <div class="row-form">
                             <div class="span3">Activate:</div>
+                             <?php if(isset($error['activate'])) echo $error['activate']; ?>
                             <div class="span9">
                                 <select name="select">
                                     <option value="0">choose a option...</option>

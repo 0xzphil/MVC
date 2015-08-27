@@ -44,7 +44,18 @@
 			$this->conn->query($sql);
 			return 1;
 		}
-	
+		
+		public function edited_product(){
+			$sql= "UPDATE products
+				SET product_name = '{$this->product_name}',
+					price ='{$this->price}',
+					details ='{$this->details}',
+					activate = '{$this->activate}',
+					time_updated = '{$this->time}'
+				WHERE id = '{$_GET['id']}'";
+			$this->conn->query($sql);
+			return 1;
+		}
 	}
 
 

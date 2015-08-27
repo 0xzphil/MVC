@@ -51,26 +51,34 @@
                     <form action="index.php?controller=user&action=insert_user" enctype="multipart/form-data" method="POST">
                     	<div class="row-form">
                             <div class="span3">Username:</div>
-                            <div class="span9"><input type="text" name="username" placeholder="some text value..."/></div>
+                            <?php if(isset($error['username'])) echo $error['username']; ?>
+                            <div class="span9"><input type="text" name="username" placeholder="some text value..."
+                            value="<?php if(isset($_POST['username'])) echo $_POST['username']; ?>" /></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Email:</div>
-                            <div class="span9"><input type="text" name="email" placeholder="some text value..."/></div>
+                            <?php if(isset($error['email'])) echo $error['email']; ?>
+                            <div class="span9"><input type="text" name="email" placeholder="some text value..."
+                            value="<?php if(isset($_POST['email'])) echo $_POST['email']; ?>"/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Password:</div>
-                            <div class="span9"><input type="text" name="password" placeholder="some text value..."/></div>
+                            <?php if(isset($error['password'])) echo $error['password']; ?>
+                            <div class="span9"><input type="text" name="password" placeholder="some text value..."
+                            value="<?php if(isset($_POST['password'])) echo $_POST['password']; ?>"/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Avatar:</div>
+                            <?php if(isset($error['avatar'])) echo $error['avatar']; ?>
                             <div class="span9"><input type="file" name="avatar" ></div>
                             <div class="clear"></div>
                         </div> 
                         <div class="row-form">
                             <div class="span3">Activate:</div>
+                            <?php if(isset($error['activate'])) echo $error['activate']; ?>
                             <div class="span9">
                                 <select name="activate">
                                     <option value="0">choose a option...</option>

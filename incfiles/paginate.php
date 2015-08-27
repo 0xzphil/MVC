@@ -1,3 +1,13 @@
+<div class="bulk-action">
+    <input type="hidden" name="table" value="<?php echo $_GET['table']; ?>">
+    <input type="submit" name="act" class="btn btn-success" value="Activate">
+    <input type="submit" name="act" class="btn btn-danger" value="Delete" >
+    <input type="submit" name="act" class="btn btn-danger" value="Deactivate"></a>
+   
+    
+</div><!-- /bulk-action-->
+
+
 <div class="dataTables_paginate">
     <a class="first paginate_button" href="index.php?controller=<?php echo $_GET['controller']; ?>&action=show&page=1">First</a>
     <?php 

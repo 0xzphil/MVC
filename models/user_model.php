@@ -32,8 +32,6 @@
 					'{$this->activate}',
 					'{$this->time}',
 					'{$this->time}')";
-			
-
 			$this->func->upload_image();
 			$this->conn->query($sql);
 			return 1;
@@ -51,7 +49,6 @@
 			
 			//
 			$this->func->upload_image();
-
 			$this->conn->query($sql); 
 			return 1;
 		}

@@ -30,7 +30,7 @@
 	if(isset($_GET['result'])){
 		$control->resolve_result($_GET['result']);
 	}
-	$control->resolve_action($_GET['action']);
+	$control->resolve_action();
 
 	session_commit();
 

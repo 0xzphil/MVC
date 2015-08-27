@@ -59,7 +59,7 @@
 
                     <div class="clear"></div>
                 </div>
-                <form  method="POST" action="index.php?controller=user&action=box">
+                <form  method="POST" action="index.php?controller=user&action=act">
                 <div class="block-fluid table-sorting">
                     <a href="<?php echo PATH; ?>/index.php?controller=user&action=add_user" class="btn btn-add">Add User</a>
                     
@@ -81,14 +81,7 @@
                         ?>
                         </tbody>
                     </table>
-                    <div class="bulk-action">
-                        <input type="hidden" name="table" value="users">
-                        <input type="submit" name="activate" class="btn btn-success" value="Activate">
-                        <input type="submit" name="delete" class="btn btn-danger" value="Delete" >
-                        <input type="submit" name="deactivate" class="btn btn-danger" value="Deactivate"></a>
-                       
-                        
-                    </div><!-- /bulk-action-->
+                    
 
                     <?php 
                         include "incfiles/paginate.php";

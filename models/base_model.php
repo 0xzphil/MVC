@@ -1,8 +1,5 @@
 <?php
 	namespace models;
-	/**
-	* 
-	*/
 	use controllers\Base;
 	use library\Func;
 
@@ -10,9 +7,6 @@
 	{	
 		public $conn; // connect data
 		public $element; // fields of data
-		public $sort; // using to sort
-		public $trend; // using to sort
-		public $controller;
 		public $func;
 		public $time;
 
@@ -29,9 +23,7 @@
 		* Function to connect database
 		*/
 		function connect_db(){
-
 			$this->conn=new \mysqli(LOCALHOST, USERNAME, PASSWORD, DATABASE);
-
 			if($this->conn->connect_error){
 				die("Connection failed". $this->conn->connect_error);
 			}
@@ -47,15 +39,18 @@
 			return $this->element = explode("|", $string);
 		}
 		//
-		public function get_a_page($table, $page, $limit){
-			self::sort_data();
-			$fields = implode(", ", $this->element);
-			$offset = ($page-1)*$limit;
+		public function get_a_page(){
+			$this->page   = $_GET['page'];
+			$this->fields = implode(", ", $this->element);
+			$this->offset = ($this->page-1)*LIMIT;
 			//
-			//self::join_table
-			$sql = "SELECT $fields FROM $table ORDER BY id {$_SESSION['sort']} LIMIT $limit OFFSET $offset";
+			$sql = "SELECT $this->fields 
+				FROM {$_GET['table']}
+				ORDER BY id {$_SESSION['sort']} 
+				LIMIT ".LIMIT." 
+				OFFSET $this->offset";
 			//
-			self::find_something($sql, $fields, $table, $limit, $offset);
+			self::find_something($sql);
 			// query
 			$query = $this->conn->query($sql);
 			if($query->num_rows!=0){
@@ -74,16 +69,29 @@
 		}
 
 		
-		public function get_num_rows($table, $limit){
-			$sql = "SELECT id FROM $table ORDER BY id ";
+		public function get_num_rows(){
+			$sql = "SELECT id FROM {$_GET['table']} ORDER BY id ";
 			// query
 			$query = $this->conn->query($sql);
-			$cout1 = (int)(($query->num_rows)/$limit);
-			$cout2 = (($query->num_rows)/$limit);
+			$cout1 = (int)(($query->num_rows)/LIMIT);
+			$cout2 = (($query->num_rows)/LIMIT);
 			return $cout1==$cout2?$cout1:($cout1+1);
 		} 
 
-		public function delete_an_element($id){
+		public function get_an_element($element){
+			$sql ="SELECT {$element} FROM {$_GET['table']} WHERE id= '{$_GET['id']}'";
+			$query = $this->conn->query($sql);
+			$row= $query->fetch_array(MYSQLI_NUM);
+			return $row['0'];
+		}
+		public function check_an_element($string, $column){
+			$sql ="SELECT {$column} FROM {$_GET['table']} WHERE {$column}= '{$string}'";
+			$query = $this->conn->query($sql);
+			if($query->num_rows!= 0) return 1;
+		}
+
+		//
+		public function delete_an_element($id, $value=null){
 			$sql = "DELETE FROM {$_POST['table']} WHERE id = {$id}";
 			$this->conn->query($sql);
 		}
@@ -93,34 +101,35 @@
 			$this->conn->query($sql);
 		}
 
-
-		public function get_an_element($table, $element, $id){
-			$sql ="SELECT {$element} FROM {$table} WHERE id= '{$id}'";
-			$query = $this->conn->query($sql);
-			$row= $query->fetch_array(MYSQLI_NUM);
-			return $row['0'];
+		public function deactivate_an_element($id, $value){
+			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}' WHERE id='{$id}'";
+			$this->conn->query($sql);
 		}
 
 		public function delete_all(){
-
+			$sql ="";
 		}
 
 		public function activate_all(){
 
 		}
-		
-		public function deactivate_all(){
 
-		}
+		//
 
-
-		public function find_something(&$sql, $fields, $table, $limit, $offset){
+		public function find_something(&$sql){
 			if(isset($_GET['search'])){
-				$sql = "SELECT $fields FROM  $table WHERE {$this->element['1']} LIKE '%{$_GET['search']}%' ORDER BY id DESC LIMIT $limit OFFSET $offset";
+				$sql = "SELECT $this->fields 
+		        FROM  {$_GET['table']}
+		        WHERE {$this->element['1']} 
+		        LIKE '%{$_GET['search']}%' 
+		        ORDER BY id 
+		        DESC 
+		        LIMIT ".LIMIT." 
+		        OFFSET $this->offset";
 			}	
 		}
 
-		public function sort_data(){
+		public function sort_something(&$sql){
 			$this->controller = new Base();
 			$this->controller->resolve_sort();		
 		}
