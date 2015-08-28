@@ -86,6 +86,7 @@
 		}
 
 		public function resolve_link(){
+			if(!isset($_GET['page'])) return 0;
 			// Creat link_show var
 			$_GET['link_show'] = "index.php?controller=".$_GET['controller']."&action=show&page=".$_GET['page'];
 			if(isset($_GET['search'])) $_GET['link_show'].="&search=".$_GET['search'];
