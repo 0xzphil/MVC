@@ -32,13 +32,17 @@
 		public function act(){
 			if($_POST['act']){
 				$name_func= strtolower($_POST['act'])."_an_element";
+				if($_POST['checkbox']== "all"){
+					$name_func= strtolower($_POST['act'])."_all";
+					$this->model->$name_func($_POST['act']);
+				}
 				foreach ($_POST['checkbox'] as $value) {
 					if(is_numeric($value)){
 						$this->model->$name_func($value, $_POST['act']);	
 					}
 				}
 			}
-			header("Location: ".PATH."/index.php?controller=".$_GET['controller']."&action=show&page=1");
+			header("Location: ".PATH."/index.php?controller=".$_GET['controller']."&action=show&page=1"); 
 		}
 
 		//
@@ -53,6 +57,7 @@
 				return 0;
 			}
 			self::resolve_name_table();
+			self::resolve_link();
 			$this->$_GET['action']();
 		}
 		public function resolve_name_table(){
@@ -78,5 +83,38 @@
 			if(isset($contain) && is_array($contain))
 				extract($contain);
 			return require_once('view/'.$file.'.php');
+		}
+
+		public function resolve_link(){
+			// Creat link_show var
+			$_GET['link_show'] = "index.php?controller=".$_GET['controller']."&action=show&page=".$_GET['page'];
+			if(isset($_GET['search'])) $_GET['link_show'].="&search=".$_GET['search'];
+			
+			// Check $_GET search var
+		    if(isset($_GET['search'])) $_GET['link']= "&search=".$_GET['search'];
+		        else $_GET['link']="";
+
+		    // If not have $_GET['order_type'], it's created
+		    if(!isset($_GET['order_type'])){ 
+		    	$_GET['order_type']="DESC";
+		    }
+		    
+			if(isset($_GET['order_by']) && isset($_GET['order_type'])){
+				//
+				if(!isset($_GET['sort'])){
+					$_GET['sort'] = $_GET['order_type'];
+		        	$_GET['link2']="&sort=".$_GET['sort'];
+				}
+		        else $_GET['link2']="&sort=".$_GET['sort'];
+		        //
+		        $_GET['link2'].="&order_by=".$_GET['order_by']; 
+			} else $_GET['link2']="";
+		    
+		    // Exchange value of order var
+		    if($_GET['order_type']== "DESC") $_GET['order_type']="ASC";
+		    	else $_GET['order_type']="DESC";
+		    //
+		    if(isset($_GET['sort']) && $_GET['sort']=='ASC') $_GET['order_type']="DESC";
+
 		}
 	}

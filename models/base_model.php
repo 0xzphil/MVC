@@ -18,6 +18,7 @@
 			}
 			$this->func= new Func();
 			$this->time= $this->func->get_time_zone("+7");
+
 		}
 		/*
 		* Function to connect database
@@ -44,19 +45,22 @@
 			$this->fields = implode(", ", $this->element);
 			$this->offset = ($this->page-1)*LIMIT;
 			//
-			$sql = "SELECT $this->fields 
+			$sql = "";
+			$select = "SELECT $this->fields 
 				FROM {$_GET['table']}
-				ORDER BY id {$_SESSION['sort']} 
-				LIMIT ".LIMIT." 
+				";
+			//
+			$search= self::find_something();
+			$sort = self::sort_something();
+			//$order = "ORDER BY id DESC";
+			$limit = " LIMIT ".LIMIT." 
 				OFFSET $this->offset";
 			//
-			self::find_something($sql);
+			$sql.=$select.=$search.=$sort.=$limit;
 			// query
 			$query = $this->conn->query($sql);
 			if($query->num_rows!=0){
-				//
 				$iter=0;
-				//
 				while ($row=$query->fetch_array(MYSQLI_NUM)) {
 					// $pos is position of index
 					for($pos=0; $pos<count($this->element); $pos++){
@@ -70,13 +74,32 @@
 
 		
 		public function get_num_rows(){
-			$sql = "SELECT id FROM {$_GET['table']} ORDER BY id ";
+			$sql = "SELECT id FROM {$_GET['table']} ";
+			$order = " ORDER BY id DESC";
+			$search= self::find_something();
+			$sql.=$search.=$order;
+
 			// query
 			$query = $this->conn->query($sql);
 			$cout1 = (int)(($query->num_rows)/LIMIT);
 			$cout2 = (($query->num_rows)/LIMIT);
 			return $cout1==$cout2?$cout1:($cout1+1);
 		} 
+		//
+		public function find_something(){
+			if(isset($_GET['search'])){
+				return " WHERE {$this->element['1']} 
+		        LIKE '%{$_GET['search']}%'";  
+			} else return ""; 
+		}
+
+		public function sort_something(){
+		
+			if(!isset($_GET['sort'])){
+				return " ORDER BY id DESC";
+			} else return " ORDER BY {$_GET['order_by']} {$_GET['sort']}";
+		}
+
 
 		public function get_an_element($element){
 			$sql ="SELECT {$element} FROM {$_GET['table']} WHERE id= '{$_GET['id']}'";
@@ -97,41 +120,28 @@
 		}
 
 		public function activate_an_element($id, $value){
-			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}' WHERE id='{$id}'";
+			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
 			$this->conn->query($sql);
 		}
 
 		public function deactivate_an_element($id, $value){
-			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}' WHERE id='{$id}'";
+			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
 			$this->conn->query($sql);
 		}
 
-		public function delete_all(){
-			$sql ="";
+		public function delete_all($value= null){
+			$sql = "DELETE FROM {$_POST['table']}";
+			$this->conn->query($sql);
 		}
 
-		public function activate_all(){
-
+		public function activate_all($value){
+			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}'";
+			$this->conn->query($sql);
 		}
 
-		//
-
-		public function find_something(&$sql){
-			if(isset($_GET['search'])){
-				$sql = "SELECT $this->fields 
-		        FROM  {$_GET['table']}
-		        WHERE {$this->element['1']} 
-		        LIKE '%{$_GET['search']}%' 
-		        ORDER BY id 
-		        DESC 
-		        LIMIT ".LIMIT." 
-		        OFFSET $this->offset";
-			}	
-		}
-
-		public function sort_something(&$sql){
-			$this->controller = new Base();
-			$this->controller->resolve_sort();		
+		public function deactivate_all($value){
+			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}'";
+			$this->conn->query($sql);
 		}
 
 	}

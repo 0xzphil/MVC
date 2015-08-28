@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-
-    <title>NTQ Solution Admin Control Panel</title>
-
-    <link rel="icon" type="image/ico" href="view/favicon.ico"/>
-
-    <link href="<?php echo PATH; ?>/public/css/stylesheets.css" rel="stylesheet" type="text/css"/>
-
-</head>
-<body>
-
-<div class="header">
-    <a class="logo" href="<?php echo PATH; ?>/index.php?controller=user&action=home_viewing">
-        <img src="<?php echo PATH; ?>/public/img/logo.png" alt="NTQ Solution - Admin Control Panel" title="NTQ Solution - Admin Control Panel"/>
-    </a>
-    
-</div>
-
 <?php 
+    include "incfiles/header.php";
     include "incfiles/menu_left.php";
 ?>
 

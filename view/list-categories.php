@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-
-    <title>NTQ Solution Admin Control Panel</title>
-
-    <link rel="icon" type="image/ico" href="favicon.ico"/>
-
-   <link href="<?php echo PATH; ?>/public/css/stylesheets.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-
-<div class="header">
-    <a class="logo" href="index.php?controller=category&action=show&page=1">
-        <img src="<?php echo PATH; ?>/public/img/logo.png" alt="NTQ Solution - Admin Control Panel" title="NTQ Solution - Admin Control Panel"/>
-    </a>
-    
-</div>
-
 <?php 
+    include "incfiles/header.php";
     include "incfiles/menu_left.php";
 ?>
 
@@ -64,7 +44,7 @@
                     <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                         <thead>
                         <tr>
-                            <th><input type="checkbox" id="checkAll"/></th>
+                            <th><input type="checkbox" id="checkAll"  name="checkbox"  value="all" /></th>
                             <th width="15%" class="sorting"><a href="#">ID</a></th>
                             <th width="35%" class="sorting"><a href="#">Category Name</a></th>
                             <th width="20%" class="sorting"><a href="#">Activate</a></th>
