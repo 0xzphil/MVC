@@ -77,6 +77,8 @@ class Func
 		$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
 		move_uploaded_file($_FILES['avatar']['tmp_name'], $file_dir);
 	}
+
+	
 }
 
 

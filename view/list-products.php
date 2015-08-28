@@ -35,33 +35,16 @@
                 <div class="head">
                     <div class="isw-grid"></div>
                     <h1>Products Management</h1>
-
                     <div class="clear"></div>
                 </div>
                 <div class="block-fluid table-sorting">
-                    <a href="index.php?controller=product&action=add_product" class="btn btn-add">Add Product</a>
                     <form action="index.php?controller=product&action=act" method="POST">
-                    <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
-                        <thead>
-                        <tr>
-                            <th><input type="checkbox" id="checkAll" name="checkbox" value="all" /></th>
-                            <th width="10%" class="sorting"><a href="#">ID</a></th>
-                            <th width="30%" class="sorting"><a href="#">Product Name</a></th>
-                            <th width="10%" class="sorting"><a href="#">Category</a></th>
-                            <th width="10%" class="sorting"><a href="#">Price</a></th>
-                            <th width="10%" class="sorting"><a href="#">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="#">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="#">Time Updated</a></th>
-                            <th width="10%">Action</th>
-                        </tr>
-                        </thead>
-                        <?php
-                            include "incfiles/page.php";
-                        ?>
-                    </table>
-                    <?php
+                    <form  method="POST" action="index.php?controller=user&action=act">
+                    <?php 
+                        include "incfiles/page.php";
                         include "incfiles/paginate.php";
                     ?>
+                </form>
                     <div class="clear"></div>
                 </div>
             </div>

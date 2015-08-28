@@ -94,7 +94,7 @@
 		}
 
 		public function sort_something(){
-		
+
 			if(!isset($_GET['sort'])){
 				return " ORDER BY id DESC";
 			} else return " ORDER BY {$_GET['order_by']} {$_GET['sort']}";

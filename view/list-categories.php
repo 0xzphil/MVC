@@ -39,29 +39,13 @@
                     <div class="clear"></div>
                 </div>
                 <div class="block-fluid table-sorting">
-                    <a href="index.php?controller=category&action=add_category" class="btn btn-add">Add Category</a>
                     <form action="index.php?controller=category&action=act" method="POST">
-                    <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
-                        <thead>
-                        <tr>
-                            <th><input type="checkbox" id="checkAll"  name="checkbox"  value="all" /></th>
-                            <th width="15%" class="sorting"><a href="#">ID</a></th>
-                            <th width="35%" class="sorting"><a href="#">Category Name</a></th>
-                            <th width="20%" class="sorting"><a href="#">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="#">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="#">Time Updated</a></th>
-                            <th width="10%">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                           include "incfiles/page.php";
-                        ?>
-                        </tbody>
-                    </table>
-                    <?php
+                    <form  method="POST" action="index.php?controller=user&action=act">
+                    <?php 
+                        include "incfiles/page.php";
                         include "incfiles/paginate.php";
                     ?>
+                </form> 
                     <div class="clear"></div>
                 </div>
             </div>

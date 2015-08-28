@@ -22,12 +22,6 @@
 			}
 			
 		}
-
-		// $cout's number of $_GET variables
-		/**
-		* Xu li  toan bo action 
-		* Dua ra cac view tuong ung
-		*/
 		//
 		public function act(){
 			if($_POST['act']){
@@ -68,13 +62,7 @@
 				? $_GET['table']= substr_replace($table, 'ies', $pos)
 				: $_GET['table']= substr_replace($table, 's', $pos+1);
 		}
-		//
-		public function resolve_sort(){
-			if(isset($_GET['sort']) &&($_GET['sort'] == "DESC" || $_GET['sort'] == "ASC")){
-				$_SESSION['sort'] = $_GET['sort'];
-			} else $_SESSION['sort']="DESC";
-			
-		}
+		
 
 		//
 		public function view($file, $data = null, $contain = null) {
@@ -104,18 +92,24 @@
 				//
 				if(!isset($_GET['sort'])){
 					$_GET['sort'] = $_GET['order_type'];
-		        	$_GET['link2']="&sort=".$_GET['sort'];
+		        	$_GET['order']="&sort=".$_GET['sort'];
 				}
-		        else $_GET['link2']="&sort=".$_GET['sort'];
+		        else $_GET['order']="&sort=".$_GET['sort'];
 		        //
-		        $_GET['link2'].="&order_by=".$_GET['order_by']; 
-			} else $_GET['link2']="";
+		        $_GET['order'].="&order_by=".$_GET['order_by']; 
+			} else $_GET['order']="";
 		    
 		    // Exchange value of order var
 		    if($_GET['order_type']== "DESC") $_GET['order_type']="ASC";
 		    	else $_GET['order_type']="DESC";
-		    //
+		    // Some exception change
 		    if(isset($_GET['sort']) && $_GET['sort']=='ASC') $_GET['order_type']="DESC";
+		}
+
+		public function check_Sort_class(){
+		if(!isset($_GET['show'])) return 0;
+		//
+			
 
 		}
 	}
