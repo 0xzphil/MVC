@@ -1,10 +1,10 @@
 <?php
 	namespace controllers;
 	/**
-	* 
+	* Base controller
 	*/
 	use models\Base_Model;
-	use \library\Func;
+	use library\Validate;
 	class Base
 	{
 		public $model;
@@ -14,46 +14,28 @@
 		{
 			$this->error = array();
 			$this->model = new Base_Model();
-			# code...
-		}
-		function resolve_result($result){
-			if($result== "ok"){
-				echo "OK";
-			}
-			
-		}
-		//
-		public function act(){
-			if($_POST['act']){
-				$name_func= strtolower($_POST['act'])."_an_element";
-				if($_POST['checkbox']== "all"){
-					$name_func= strtolower($_POST['act'])."_all";
-					$this->model->$name_func($_POST['act']);
-				}
-				foreach ($_POST['checkbox'] as $value) {
-					if(is_numeric($value)){
-						$this->model->$name_func($value, $_POST['act']);	
-					}
-				}
-			}
-			header("Location: ".PATH."/index.php?controller=".$_GET['controller']."&action=show&page=1"); 
 		}
 
 		//
 		public function resolve_action(){
-			$check = new Func();
-			// Check action = login  || didn't exist COOKIE variable
+			//
 			if($_GET['action'] == "login" ){
-				self::view('login');
-				$check->login();
+				User::login();
+				self::view('login', $this->error);
+				return 0;
 			}
 			if (!isset($_SESSION['username']) || !isset($_SESSION['password']) || !isset($_SESSION['id'])){
+				self::view('login');
 				return 0;
 			}
 			self::resolve_name_table();
+			self::resolve_search();
 			self::resolve_link();
+			//
 			$this->$_GET['action']();
 		}
+
+		//
 		public function resolve_name_table(){
 			// Get table
 			$table = $_GET['controller'];
@@ -64,15 +46,6 @@
 		}
 		
 
-		//
-		public function view($file, $data = null, $contain = null) {
-			if(isset($data) && is_array($data))
-				extract($data);
-			if(isset($contain) && is_array($contain))
-				extract($contain);
-			return require_once('view/'.$file.'.php');
-		}
-
 		public function resolve_link(){
 			if(!isset($_GET['page'])) return 0;
 			// Creat link_show var
@@ -80,7 +53,7 @@
 			if(isset($_GET['search'])) $_GET['link_show'].="&search=".$_GET['search'];
 			
 			// Check $_GET search var
-		    if(isset($_GET['search'])) $_GET['link']= "&search=".$_GET['search'];
+		    if(!empty($_GET['search'])) $_GET['link']= "&search=".$_GET['search'];
 		        else $_GET['link']="";
 
 		    // If not have $_GET['order_type'], it's created
@@ -106,10 +79,52 @@
 		    if(isset($_GET['sort']) && $_GET['sort']=='ASC') $_GET['order_type']="DESC";
 		}
 
-		public function check_Sort_class(){
-		if(!isset($_GET['show'])) return 0;
-		//
-			
-
+		public function resolve_search(){
+			if(isset($_GET['search'])){
+				$rules =[
+				'search'=> ['not_metachars', 'max']
+				];
+				$validate = new Validate($rules);
+				$validate->execute();
+				$this->error = $validate->getErrors();
+				if(!empty($this->error)){
+					$_GET['search']='';
+				};
+			}
 		}
+
+		public function act(){
+			if($_POST['act']){
+				$name_func= strtolower($_POST['act'])."_an_element";
+				if($_POST['checkbox']== "all"){
+					$name_func= strtolower($_POST['act'])."_all";
+					$this->model->$name_func($_POST['act']);
+				}
+				foreach ($_POST['checkbox'] as $value) {
+					if(is_numeric($value)){
+						$this->model->$name_func($value, $_POST['act']);	
+					}
+				}
+			}
+			header("Location: ".PATH."/index.php?controller=".$_GET['controller']."&action=show&page=1"); 
+		}
+
+
+
+		function resolve_result($result){
+			if($result== "ok"){
+				echo "OK";
+			}
+			
+		}
+		
+		//
+		public function view($file, $data = null, $contain = null) {
+			if(isset($data) && is_array($data))
+				extract($data);
+			if(isset($contain) && is_array($contain))
+				extract($contain);
+			return require_once('view/'.$file.'.php');
+		}
+
 	}

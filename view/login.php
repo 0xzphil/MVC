@@ -19,11 +19,13 @@
         </div>
         <form class="form-horizontal" action="index.php?controller=user&action=login" method="POST">            
             <div class="control-group">
-                <label for="inputUsername" >Username</label>                
+                <label for="inputUsername" >Username</label> 
+                <?php if(isset($error['username'])) echo $error['username']; ?>               
                 <input type="text" id="inputUsername"  name="username" value="" />
             </div>
             <div class="control-group">
-                <label for="inputPassword">Password</label>                
+                <label for="inputPassword">Password</label>    
+                <?php if(isset($error['password'])) echo $error['password']; ?>            
                 <input type="password" id="inputPassword"  name="password" value="" />                
             </div>
             <div class="control-group" style="margin-bottom: 5px;">                

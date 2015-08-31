@@ -51,7 +51,7 @@
 				";
 			//
 			$search= self::find_something();
-			$sort = self::sort_something();
+			$sort  = self::sort_something();
 			//$order = "ORDER BY id DESC";
 			$limit = " LIMIT ".LIMIT." 
 				OFFSET $this->offset";
@@ -78,7 +78,6 @@
 			$order = " ORDER BY id DESC";
 			$search= self::find_something();
 			$sql.=$search.=$order;
-
 			// query
 			$query = $this->conn->query($sql);
 			$cout1 = (int)(($query->num_rows)/LIMIT);
@@ -90,16 +89,14 @@
 			if(isset($_GET['search'])){
 				return " WHERE {$this->element['1']} 
 		        LIKE '%{$_GET['search']}%'";  
-			} else return ""; 
+			} else return ''; 
 		}
 
 		public function sort_something(){
-
 			if(!isset($_GET['sort'])){
 				return " ORDER BY id DESC";
 			} else return " ORDER BY {$_GET['order_by']} {$_GET['sort']}";
 		}
-
 
 		public function get_an_element($element){
 			$sql ="SELECT {$element} FROM {$_GET['table']} WHERE id= '{$_GET['id']}'";

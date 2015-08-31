@@ -38,10 +38,9 @@ class Category extends Base
 	}
 	//
 	public function show(){
-		$limit = 10;
-		$max_pages= $this->model->get_num_rows();
 		$name_fields =$this->model->get_name_element("id|category_name|activate|time_created|time_updated");
 		$data =$this->model->get_a_page();
+		$max_pages= $this->model->get_num_rows();
 		//
 		$contain = array('data'=>$data, 'name_fields'=> $name_fields, 'max_pages'=>$max_pages);
 		self::view('list-categories', $contain);

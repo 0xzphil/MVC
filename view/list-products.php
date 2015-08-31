@@ -39,12 +39,11 @@
                 </div>
                 <div class="block-fluid table-sorting">
                     <form action="index.php?controller=product&action=act" method="POST">
-                    <form  method="POST" action="index.php?controller=user&action=act">
                     <?php 
                         include "incfiles/page.php";
                         include "incfiles/paginate.php";
                     ?>
-                </form>
+                    </form>
                     <div class="clear"></div>
                 </div>
             </div>

@@ -35,10 +35,9 @@
                 <div class="head">
                     <div class="isw-grid"></div>
                     <h1>Users Management</h1>
-
                     <div class="clear"></div>
                 </div>
-                <form  method="POST" action="index.php?controller=user&action=act">
+                <form method="POST" action="index.php?controller=user&action=act">
                     <?php 
                         include "incfiles/page.php";
                         include "incfiles/paginate.php";
