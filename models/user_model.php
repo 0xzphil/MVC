@@ -10,9 +10,10 @@
 		public $user;
 		public function __construct($_username = NULL, $_password = NULL, $_email = NULL, $_activate = NULL){
 			parent::__construct();
+			$this->table   = 'users';
 			$this->username= $_username;
 			$this->password= $_password;
-			$this->email= $_email;
+			$this->email   = $_email;
 			$this->activate= $_activate;
 		}
 		
@@ -46,7 +47,6 @@
 					time_updated ='{$this->time}'
 					WHERE id='{$_GET['id']}'
 			";
-			
 			//
 			$this->func->upload_image();
 			$this->conn->query($sql); 

@@ -1,6 +1,9 @@
 <?php 
 namespace library;
-use models\Base_Model;
+use models\User_Model;
+use models\Product_Model;
+use models\Category_Model;
+
 class Validate
 {
 	private $errors;
@@ -12,7 +15,8 @@ class Validate
 	*/
 	private $rules;
 	public function __construct($rules){
-		$this->model = new Base_Model();
+		$model = 'models\\'.ucfirst($_GET['controller']).'_Model';
+		$this->model = new $model();
 		$this->rules = $rules;
 	}
 
@@ -23,12 +27,17 @@ class Validate
 	public function execute(){
 		foreach ($this->rules as $params => $rules) {
 			foreach($rules as $key => $rule) {
-				if (method_exists($this, $rule) && isset($_REQUEST[$params])) {
-					$this->$rule($params, $_REQUEST[$params]);
+				$this->extraValue= $method = explode(':', $rule);
+				if (method_exists($this, $method['0']) && isset($_REQUEST[$params])) {
+					$this->$method['0']($params, $_REQUEST[$params]);
 				}
 			}
 		}
 		
+	}
+
+	public function isValidate() {
+		return empty($this->errors);
 	}
 
 	public function required($param, $value){
@@ -39,12 +48,10 @@ class Validate
 	//
 	public function unique($param, $value){
 		//check form if it's true
-		if(isset( $_GET['id']) && $_POST[$param] == $this->model->get_an_element($param))
+		if(isset($_GET['id']) && $_POST[$param] == $this->model->get_an_element($param))
 			return 0;
-		//
-		if(!empty($_POST[$param]))
-			if($this->model->check_an_element($value, $param)) 
-				$this->errors['error'][$param] = "This $param was existed";
+		if($this->model->check_an_element($value, $param)) 
+			$this->errors['error'][$param] = "This $param was existed";
 	}
 
 
@@ -55,14 +62,14 @@ class Validate
 	}
 
 	public function min($param, $value){
-		if(strlen($value)< 6){
-			$this->errors['error'][$param] = "Minium 6 chars";
+		if(strlen($value)< $this->extraValue['1']){
+			$this->errors['error'][$param] = "Minium ".$this->extraValue['1']." chars";
 		}
 	}
 
-	public function max($param, $value, $max=25){
-		if(strlen($value)> 25){
-			$this->errors['error'][$param] = "Maximum 25 chars";
+	public function max($param, $value){
+		if(strlen($value)> $this->extraValue['1']){
+			$this->errors['error'][$param] = "Maximum ".$this->extraValue['1']." chars";
 		}
 	}
 

@@ -32,13 +32,13 @@
                     	<div class="row-form">
                             <div class="span3">Username:</div>
                             <?php if(isset($error['username'])) echo $error['username']; ?>
-                            <div class="span9"><input type="text" name="username" value="<?php echo $_POST['username'];?>" /></div>
+                            <div class="span9"><input type="text" name="username" value="<?php echo $user['username'];?>" /></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Email:</div>
                             <?php if(isset($error['email'])) echo $error['email']; ?>
-                            <div class="span9"><input type="text" name="email" value="<?php echo $_POST['email'];?>"/></div>
+                            <div class="span9"><input type="text" name="email" value="<?php echo $user['email'];?>"/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
@@ -55,8 +55,8 @@
                                 // Load image
                                 $imgLoad = ['jpg', 'jpeg', 'png', 'gif'];
                                 foreach ($imgLoad as $value) {
-                                    if(file_exists("uploads/".$_GET['controller']."/".$_POST['username'].".".$value)){
-                                        $link = "uploads/".$_GET['controller']."/".$_POST['username'].".".$value;
+                                    if(file_exists("uploads/".$_GET['controller']."/".$user['username'].".".$value)){
+                                        $link = "uploads/".$_GET['controller']."/".$user['username'].".".$value;
                                 }
                                 if(!isset($link)) $link = "uploads/".$_GET['controller']."/default.jpg";
                             }

@@ -9,9 +9,8 @@
 		public $element; // fields of data
 		public $func;
 		public $time;
-
+		public $table;
 		function __construct(){
-			//
 			$this->conn=new \mysqli(LOCALHOST, USERNAME, PASSWORD, DATABASE);
 			if($this->conn->connect_error){
 				die("Connection failed". $this->conn->connect_error);
@@ -32,24 +31,25 @@
 			
 		}
 		/*
-		* Details of this two funtions get_name_element using to get name of element in database
-		* Below, $this->element[$pos] use to (get name of element) at $pos position, example, it returns "username" or "password"
-		* $element[$this->element[$pos]][$iter], example: it returns(  $element['username']['0'] , $ $element['username']['1'], ... )
+		* Details of this two funtions get_name_element 
+		using to get name of element in database
+		* Below, $this->element[$pos] use to (get name of element)
+		 at $pos position, example, it returns "username" or "password"
+		* $element[$this->element[$pos]][$iter], example: 
+		it returns(  $element['username']['0'] , $ $element['username']['1'], ... )
 		*/
 		public function get_name_element($string){
 			return $this->element = explode("|", $string);
 		}
 		//
-		public function get_a_page(){
-			$this->page   = $_GET['page'];
+		public function get_a_page($page){
 			$this->fields = implode(", ", $this->element);
-			$this->offset = ($this->page-1)*LIMIT;
+			$this->offset = ($page-1)*LIMIT;
 			//
-			$sql = "";
+			$sql = '';
 			$select = "SELECT $this->fields 
-				FROM {$_GET['table']}
-				";
-			//
+				FROM {$this->table}
+			";
 			$search= self::find_something();
 			$sort  = self::sort_something();
 			//$order = "ORDER BY id DESC";
@@ -74,7 +74,7 @@
 
 		
 		public function get_num_rows(){
-			$sql = "SELECT id FROM {$_GET['table']} ";
+			$sql = "SELECT id FROM {$this->table} ";
 			$order = " ORDER BY id DESC";
 			$search= self::find_something();
 			$sql.=$search.=$order;
@@ -89,58 +89,54 @@
 			if(isset($_GET['search'])){
 				return " WHERE {$this->element['1']} 
 		        LIKE '%{$_GET['search']}%'";  
-			} else return ''; 
+			} else return '';
 		}
-
 		public function sort_something(){
 			if(!isset($_GET['sort'])){
 				return " ORDER BY id DESC";
 			} else return " ORDER BY {$_GET['order_by']} {$_GET['sort']}";
 		}
 
+
+		public function findById($id) {
+			$sql = 'SELECT * FROM ' . $this->table . ' WHERE id = ' . $id;
+			$result = $this->conn->query($sql);
+			return $result->fetch_array();
+		}
 		public function get_an_element($element){
-			$sql ="SELECT {$element} FROM {$_GET['table']} WHERE id= '{$_GET['id']}'";
+			$sql ="SELECT {$element} FROM {$this->table} WHERE id= '{$_GET['id']}'";	
 			$query = $this->conn->query($sql);
 			$row= $query->fetch_array(MYSQLI_NUM);
 			return $row['0'];
 		}
 		public function check_an_element($string, $column){
-			$sql ="SELECT {$column} FROM {$_GET['table']} WHERE {$column}= '{$string}'";
+			$sql ="SELECT {$column} FROM {$this->table} WHERE {$column}= '{$string}'";
 			$query = $this->conn->query($sql);
 			if($query->num_rows!= 0) return 1;
 		}
-
-		//
 		public function delete_an_element($id, $value=null){
-			$sql = "DELETE FROM {$_POST['table']} WHERE id = {$id}";
+			$sql = "DELETE FROM {$this->table} WHERE id = {$id}";
 			$this->conn->query($sql);
 		}
-
 		public function activate_an_element($id, $value){
-			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
+			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
 			$this->conn->query($sql);
 		}
-
 		public function deactivate_an_element($id, $value){
-			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
+			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
 			$this->conn->query($sql);
 		}
-
 		public function delete_all($value= null){
-			$sql = "DELETE FROM {$_POST['table']}";
+			$sql = "DELETE FROM {$this->table}";
 			$this->conn->query($sql);
 		}
-
 		public function activate_all($value){
-			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}'";
+			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}'";
 			$this->conn->query($sql);
 		}
-
 		public function deactivate_all($value){
-			$sql = "UPDATE {$_POST['table']} SET activate= '{$value}', time_updated = '{$this->time}'";
+			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}'";
 			$this->conn->query($sql);
 		}
-
 	}
-
 ?>

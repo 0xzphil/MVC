@@ -7,46 +7,31 @@
 	use library\Validate;
 	class Base
 	{
-		public $model;
 		public $error;
 		public $rules;
+		public $model;
 		function __construct()
 		{
+			//$this->model = new Base_Model();
 			$this->error = array();
-			$this->model = new Base_Model();
 		}
 
 		//
 		public function resolve_action(){
-			//
 			if($_GET['action'] == "login" ){
 				User::login();
-				self::view('login', $this->error);
-				return 0;
+				return self::view('login', $this->error);
 			}
-			if (!isset($_SESSION['username']) || !isset($_SESSION['password']) || !isset($_SESSION['id'])){
-				self::view('login');
-				return 0;
+			if(!isset($_SESSION['username']) 
+				|| !isset($_SESSION['password']) 
+				|| !isset($_SESSION['id'])){
+				return self::view('login');
 			}
-			self::resolve_name_table();
-			self::resolve_search();
-			self::resolve_link();
-			//
 			$this->$_GET['action']();
 		}
 
-		//
-		public function resolve_name_table(){
-			// Get table
-			$table = $_GET['controller'];
-			$pos = strlen($table)-1;
-			($table[$pos]=='y')
-				? $_GET['table']= substr_replace($table, 'ies', $pos)
-				: $_GET['table']= substr_replace($table, 's', $pos+1);
-		}
-		
-
 		public function resolve_link(){
+			//
 			if(!isset($_GET['page'])) return 0;
 			// Creat link_show var
 			$_GET['link_show'] = "index.php?controller=".$_GET['controller']."&action=show&page=".$_GET['page'];
@@ -86,13 +71,14 @@
 				];
 				$validate = new Validate($rules);
 				$validate->execute();
-				$this->error = $validate->getErrors();
-				if(!empty($this->error)){
+					$validate->getErrors();
+				if(!$validate->isValidate()){
 					$_GET['search']='';
 				};
 			}
-		}
 
+		}
+		// Three action for index data
 		public function act(){
 			if($_POST['act']){
 				$name_func= strtolower($_POST['act'])."_an_element";
@@ -109,16 +95,7 @@
 			header("Location: ".PATH."/index.php?controller=".$_GET['controller']."&action=show&page=1"); 
 		}
 
-
-
-		function resolve_result($result){
-			if($result== "ok"){
-				echo "OK";
-			}
-			
-		}
-		
-		//
+		// view function
 		public function view($file, $data = null, $contain = null) {
 			if(isset($data) && is_array($data))
 				extract($data);
@@ -127,4 +104,9 @@
 			return require_once('view/'.$file.'.php');
 		}
 
+		public function result(){
+			if(isset($_GET['result']) && $_GET['result']== "ok"){
+				echo "OK";
+			}
+		}
 	}

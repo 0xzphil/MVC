@@ -6,9 +6,11 @@
 	class Category_Model extends Base_Model
 	{
 		public $category_name, $activate;
+		public $table;
 		//
 		function __construct($category_name = NULL, $activate = NULL)
 		{
+			$this->table = 'categories';
 			parent::__construct();
 			$this->category_name = $category_name;
 			$this->activate= $activate;
@@ -41,18 +43,7 @@
 			return 1;
 		}
 		//
-		public function get_list_category(){
-			$sql = "SELECT id, category_name FROM categories";
-			$query= $this->conn->query($sql);
-			$data = array();
-			$iter =0;
-			while ($row = $query->fetch_array(MYSQLI_NUM)) {
-				$data[$iter]['id'] = $row['0'];
-				$data[$iter]['category_name'] = $row['1'];
-				$iter++; 
-			}
-			return $data;
-		}
+		
 	
 	}
 

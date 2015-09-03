@@ -27,10 +27,10 @@
 	$controller = "controllers\\{$_GET['controller']}";
 	$control = new $controller();
 	//
-	if(isset($_GET['result'])){
-		$control->resolve_result($_GET['result']);
-	}
+	$control->resolve_link();
+	$control->resolve_search();
 	$control->resolve_action();
+	$control->result();
 
 	session_commit();
 
