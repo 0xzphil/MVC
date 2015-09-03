@@ -115,20 +115,20 @@
 			if($query->num_rows!= 0) return 1;
 		}
 
-		public function changeActiveStatus($act, $value){
-			if($value=='all'){
-				if($act=='Delete'){
+		public function changeActiveStatus($status, $id){
+			if($id=='all'){
+				if($status=='Delete'){
 					$sql = "DELETE FROM {$this->table}";
 					$this->conn->query($sql);
 				}
-				$sql = "UPDATE {$this->table} SET activate= '{$act}', time_updated = '{$this->time}'";
+				$sql = "UPDATE {$this->table} SET activate= '{$status}', time_updated = '{$this->time}'";
 				$this->conn->query($sql);
 			}
-			if($act=='Delete'){
-				$sql = "DELETE FROM {$this->table} WHERE id = {$value}";
+			if($status=='Delete'){
+				$sql = "DELETE FROM {$this->table} WHERE id = {$id}";
 				$this->conn->query($sql);
 			}
-			$sql = "UPDATE {$this->table} SET activate= '{$act}', time_updated = '{$this->time}' WHERE id='{$value}'";
+			$sql = "UPDATE {$this->table} SET activate= '{$status}', time_updated = '{$this->time}' WHERE id='{$id}'";
 			$this->conn->query($sql);
 		}
 	}
