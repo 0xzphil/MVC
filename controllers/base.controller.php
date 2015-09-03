@@ -12,7 +12,6 @@
 		public $model;
 		function __construct()
 		{
-			//$this->model = new Base_Model();
 			$this->error = array();
 		}
 
@@ -67,7 +66,7 @@
 		public function resolve_search(){
 			if(isset($_GET['search'])){
 				$rules =[
-				'search'=> ['not_metachars', 'max']
+				'search'=> ['not_metachars', 'max:25']
 				];
 				$validate = new Validate($rules);
 				$validate->execute();
@@ -78,18 +77,11 @@
 			}
 
 		}
-		// Three action for index data
+		// Change Action Status
 		public function act(){
 			if($_POST['act']){
-				$name_func= strtolower($_POST['act'])."_an_element";
-				if($_POST['checkbox']== "all"){
-					$name_func= strtolower($_POST['act'])."_all";
-					$this->model->$name_func($_POST['act']);
-				}
 				foreach ($_POST['checkbox'] as $value) {
-					if(is_numeric($value)){
-						$this->model->$name_func($value, $_POST['act']);	
-					}
+					$this->model->changeActiveStatus($_POST['act'], $value);
 				}
 			}
 			header("Location: ".PATH."/index.php?controller=".$_GET['controller']."&action=show&page=1"); 

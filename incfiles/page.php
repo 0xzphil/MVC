@@ -5,7 +5,7 @@
 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
     <thead>
     <tr>
-        <th><input type="checkbox" id="checkAll"  name="checkbox"  value="all" /></th>
+        <th><input type="checkbox" id="checkAll"  name="checkbox[]"  value="all" /></th>
 
         <?php
             foreach ($name_fields as $value) { ?>
@@ -14,7 +14,6 @@
                     $class='sorting_'.strtolower($_GET['sort']);
                 } else $class="sorting";
             ?>
-            
             <th width="15%" class=
             "<?php echo $class; ?>"><a href="<?php echo $_GET['link_show']; ?>&order_by=<?php echo $value; ?>&order_type=<?php echo $_GET['order_type']; ?>">
             <?php echo $value; ?></th>

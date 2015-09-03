@@ -91,8 +91,8 @@
 			self::check_cookie();
 			$rules = 
 			[
-				'username' => ['empty', 'not_metachars', 'min', 'max'],
- 				'password' => ['empty', 'not_metachars', 'min', 'max']
+				'username' => ['empty', 'not_metachars', 'min:5', 'max:20'],
+ 				'password' => ['empty', 'not_metachars', 'min:5', 'max:20']
 			];
 
 			$validate = new Validate($rules);

@@ -50,8 +50,8 @@
 			$select = "SELECT $this->fields 
 				FROM {$this->table}
 			";
-			$search= self::find_something();
-			$sort  = self::sort_something();
+			$search= self::searchInfo();
+			$sort  = self::sortData();
 			//$order = "ORDER BY id DESC";
 			$limit = " LIMIT ".LIMIT." 
 				OFFSET $this->offset";
@@ -76,7 +76,7 @@
 		public function get_num_rows(){
 			$sql = "SELECT id FROM {$this->table} ";
 			$order = " ORDER BY id DESC";
-			$search= self::find_something();
+			$search= self::searchInfo();
 			$sql.=$search.=$order;
 			// query
 			$query = $this->conn->query($sql);
@@ -85,13 +85,13 @@
 			return $cout1==$cout2?$cout1:($cout1+1);
 		} 
 		//
-		public function find_something(){
+		public function searchInfo(){
 			if(isset($_GET['search'])){
 				return " WHERE {$this->element['1']} 
 		        LIKE '%{$_GET['search']}%'";  
 			} else return '';
 		}
-		public function sort_something(){
+		public function sortData(){
 			if(!isset($_GET['sort'])){
 				return " ORDER BY id DESC";
 			} else return " ORDER BY {$_GET['order_by']} {$_GET['sort']}";
@@ -114,28 +114,21 @@
 			$query = $this->conn->query($sql);
 			if($query->num_rows!= 0) return 1;
 		}
-		public function delete_an_element($id, $value=null){
-			$sql = "DELETE FROM {$this->table} WHERE id = {$id}";
-			$this->conn->query($sql);
-		}
-		public function activate_an_element($id, $value){
-			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
-			$this->conn->query($sql);
-		}
-		public function deactivate_an_element($id, $value){
-			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}' WHERE id='{$id}'";
-			$this->conn->query($sql);
-		}
-		public function delete_all($value= null){
-			$sql = "DELETE FROM {$this->table}";
-			$this->conn->query($sql);
-		}
-		public function activate_all($value){
-			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}'";
-			$this->conn->query($sql);
-		}
-		public function deactivate_all($value){
-			$sql = "UPDATE {$this->table} SET activate= '{$value}', time_updated = '{$this->time}'";
+
+		public function changeActiveStatus($act, $value){
+			if($value=='all'){
+				if($act=='Delete'){
+					$sql = "DELETE FROM {$this->table}";
+					$this->conn->query($sql);
+				}
+				$sql = "UPDATE {$this->table} SET activate= '{$act}', time_updated = '{$this->time}'";
+				$this->conn->query($sql);
+			}
+			if($act=='Delete'){
+				$sql = "DELETE FROM {$this->table} WHERE id = {$value}";
+				$this->conn->query($sql);
+			}
+			$sql = "UPDATE {$this->table} SET activate= '{$act}', time_updated = '{$this->time}' WHERE id='{$value}'";
 			$this->conn->query($sql);
 		}
 	}
