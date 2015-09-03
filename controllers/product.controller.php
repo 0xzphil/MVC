@@ -36,8 +36,8 @@ class Product extends Base
 		}
 	}
 	public function add_product(){
-		$contain = array('data' => $this->model->get_list_category());
-		self::view('add-product', $contain, $this->error);
+		$list_category= array('data' => $this->model->get_list_category());
+		self::view('add-product', $list_category, $this->error);
 	}
 
 	public function edited_product(){
