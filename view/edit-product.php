@@ -50,13 +50,7 @@
                             <div class="span3">Upload Image:</div>
                              <?php if(isset($error['avatar'])) echo $error['avatar']; ?>
                             <div class="span9">
-                            <img src="img/products/1.jpg" />
-                            <img src="img/products/2.jpg" />
-                            <img src="img/products/3.jpg" />
-                            <img src="img/products/4.jpg" />
-                            <img src="img/products/5.jpg" />
-                            <img src="img/products/6.jpg" />
-                            <br/>
+                            <img src="<?php echo $product['avatar'];?>" height="100" width="100" ><br/>
                             <input type="file" name="avatar">
                             </div>
                             <div class="clear"></div>
@@ -67,8 +61,8 @@
                             <div class="span9">
                                 <select name="activate">
                                     <option value="0">choose a option...</option>
-                                    <option value="activate">Activate</option>
-                                    <option value="deactivat">Deactivate</option>
+                                    <option value="Activate" <?php if($product['activate']=='Activate'){  ?> selected="" <?php }; ?> >Activate</option>
+                                    <option value="Deactivate" <?php if($product['activate']=='Deactivate'){ ; ?> selected="" <?php }; ?> >Deactivate</option>
                                 </select>
                             </div>
                             <div class="clear"></div>

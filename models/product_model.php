@@ -3,6 +3,7 @@
 	/**
 	* 
 	*/
+	use library\Func;
 	class Product_Model extends Base_Model
 	{
 		public $category_id;
@@ -24,11 +25,13 @@
 			$this->activate = $activate;
 		}
 		public function insert_product(){
+			$this->avatar = $this->func->upload_image();
 			$sql ="INSERT INTO 
 				products(
 					category_id,
 					product_name,
 					price,
+					avatar,
 					details,
 					activate,
 					time_created,
@@ -38,6 +41,7 @@
 					'{$this->category_id}',
 					'{$this->product_name}',
 					'{$this->price}',
+					'{$this->avatar}',
 					'{$this->details}',
 					'{$this->activate}',
 					'{$this->time}',
@@ -48,10 +52,12 @@
 		}
 		
 		public function edited_product(){
+			$this->avatar = $this->func->upload_image();
 			$sql= "UPDATE products
 				SET product_name = '{$this->product_name}',
 					price ='{$this->price}',
 					details ='{$this->details}',
+					avatar ='{$this->avatar}',
 					activate = '{$this->activate}',
 					time_updated = '{$this->time}'
 				WHERE id = '{$_GET['id']}'";

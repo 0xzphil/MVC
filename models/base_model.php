@@ -10,6 +10,8 @@
 		public $func;
 		public $time;
 		public $table;
+		public $search;
+		public $sort;
 		function __construct(){
 			$this->conn=new \mysqli(LOCALHOST, USERNAME, PASSWORD, DATABASE);
 			if($this->conn->connect_error){
@@ -32,7 +34,7 @@
 		}
 		/*
 		* Details of this two funtions get_name_element 
-		using to get name of element in database
+		using to get name of elements in database
 		* Below, $this->element[$pos] use to (get name of element)
 		 at $pos position, example, it returns "username" or "password"
 		* $element[$this->element[$pos]][$iter], example: 
@@ -50,13 +52,13 @@
 			$select = "SELECT $this->fields 
 				FROM {$this->table}
 			";
-			$search= self::searchInfo();
-			$sort  = self::sortData();
-			//$order = "ORDER BY id DESC";
 			$limit = " LIMIT ".LIMIT." 
 				OFFSET $this->offset";
 			//
-			$sql.=$select.=$search.=$sort.=$limit;
+			$sql.=$select;
+			$sql.=$this->search;
+			$sql.=$this->sort;
+			$sql.=$limit;
 			// query
 			$query = $this->conn->query($sql);
 			if($query->num_rows!=0){
@@ -72,12 +74,11 @@
 			} else return 0;
 		}
 
-		
-		public function get_num_rows(){
+		public function get_num_pages(){
 			$sql = "SELECT id FROM {$this->table} ";
 			$order = " ORDER BY id DESC";
-			$search= self::searchInfo();
-			$sql.=$search.=$order;
+			$sql.=$this->search;
+			$sql.=$order;
 			// query
 			$query = $this->conn->query($sql);
 			$cout1 = (int)(($query->num_rows)/LIMIT);
@@ -85,19 +86,18 @@
 			return $cout1==$cout2?$cout1:($cout1+1);
 		} 
 		//
-		public function searchInfo(){
-			if(isset($_GET['search'])){
-				return " WHERE {$this->element['1']} 
-		        LIKE '%{$_GET['search']}%'";  
-			} else return '';
+		public function searchInfo($search){
+			if(!empty($search)){
+				$this->search= " WHERE {$this->element['1']} 
+		        LIKE '%{$search}%'";  
+			} else $this->search= '';
 		}
-		public function sortData(){
-			if(!isset($_GET['sort'])){
-				return " ORDER BY id DESC";
-			} else return " ORDER BY {$_GET['order_by']} {$_GET['sort']}";
+		public function sortData($orderBy= null, $orderType=null){
+			if(!isset($orderType)||!isset($orderBy)){
+				return $this->sort=  " ORDER BY id DESC";
+			} else return $this->sort=" ORDER BY {$orderBy} {$orderType}";
+
 		}
-
-
 		public function findById($id) {
 			$sql = 'SELECT * FROM ' . $this->table . ' WHERE id = ' . $id;
 			$result = $this->conn->query($sql);
@@ -120,16 +120,18 @@
 				if($status=='Delete'){
 					$sql = "DELETE FROM {$this->table}";
 					$this->conn->query($sql);
+				} else{
+					$sql = "UPDATE {$this->table} SET activate= '{$status}', time_updated = '{$this->time}'";
+					$this->conn->query($sql);
 				}
-				$sql = "UPDATE {$this->table} SET activate= '{$status}', time_updated = '{$this->time}'";
-				$this->conn->query($sql);
 			}
 			if($status=='Delete'){
 				$sql = "DELETE FROM {$this->table} WHERE id = {$id}";
 				$this->conn->query($sql);
+			} else {
+				$sql = "UPDATE {$this->table} SET activate= '{$status}', time_updated = '{$this->time}' WHERE id='{$id}'";
+				$this->conn->query($sql);
 			}
-			$sql = "UPDATE {$this->table} SET activate= '{$status}', time_updated = '{$this->time}' WHERE id='{$id}'";
-			$this->conn->query($sql);
 		}
 	}
 ?>

@@ -31,7 +31,7 @@
 	$control->resolve_search();
 	$control->resolve_action();
 	$control->result();
-
+	
 	session_commit();
 
 ?>	

@@ -1,8 +1,5 @@
 <?php
 	namespace controllers;
-	/**
-	* 
-	*/
 	use models\Category_Model;
 	use models\Base_Model;
 
@@ -37,9 +34,10 @@
 		//
 		public function show(){
 			$name_fields =$this->model->get_name_element("id|category_name|activate|time_created|time_updated");
+			$this->model->searchInfo($this->search);
+			$this->model->sortData($this->sortBy, $this->sortType);
 			$data =$this->model->get_a_page($_GET['page']);
-			$max_pages= $this->model->get_num_rows();
-			//
+			$max_pages= $this->model->get_num_pages();
 			$contain = array('data'=>$data, 'name_fields'=> $name_fields, 'max_pages'=>$max_pages);
 			self::view('list-categories', $contain);
 		}

@@ -17,7 +17,7 @@
 			$this->rules =  [
 				'username' => ['required', 'min:5'   , 'max:20'  , 'not_metachars', 'unique'],
 				'password' => ['required', 'min:5'   , 'max:20'  , 'not_metachars'],
-				'email'	   => ['required', 'unique', 'email'],
+				'email'	   => ['required', 'unique'  , 'email'],
 				'activate' => ['activate'],
 				'avatar'   => ['uploaded', 'max_size', 'image', 'not_fake']
 			];
@@ -32,6 +32,7 @@
 			if (!$validate->isValidate()) {
 				return self::view('add-user', $this->error);
 			}
+			// Not have any errors
 			$this->model = new User_Model($_POST['username'], $_POST['password'], $_POST['email'], $_POST['activate']);
 			if($this->model->insert_user()){
 				header("Location: ".PATH."/index.php?controller=user&action=add_user&result=ok");
@@ -54,7 +55,7 @@
 				$user = $this->model->findById($id);
 				return self::view('edit-user', $this->error, ['user' => $user]);
 			}
-
+			// Not have any errors
 			$this->model = new User_Model($_POST['username'], $_POST['password'], $_POST['email'], $_POST['activate']);
 			$this->model->edited_user();
 			header("Location: ".PATH."/index.php?controller=user&action=edit_starting&id=".$_GET['id']."&result=ok");
@@ -67,14 +68,16 @@
 			if (!$user) {
 				return self::view('common-errors', ['message' => 'User not found!']);
 			}
+			// Not have any errors
 			return self::view('edit-user', ['user' => $user]);
 		}
 
 		public function show(){
-			//
 			$name_fields= $this->model->get_name_element("id|username|activate|time_created|time_updated");
+			$this->model->searchInfo($this->search);
+			$this->model->sortData($this->sortBy, $this->sortType);
 			$data = $this->model->get_a_page($_GET['page']);
-			$max_pages = $this->model->get_num_rows();
+			$max_pages = $this->model->get_num_pages();
 			//
 			$contain = array("data"=> $data, "name_fields"=> $name_fields, "max_pages"=> $max_pages);
 			self::view('list-users', $contain);
@@ -85,8 +88,7 @@
 			self::view('add-user');
 		}
 
-		// CHECK LOGIN
-		
+		// checking login method
 		function login(){
 			self::check_cookie();
 			$rules = 
@@ -100,14 +102,15 @@
 			$this->error = $validate->getErrors();
 			// Check login and check_admin
 			if(empty($this->error)){
-				if($id = self::check_user()){
+				if($id = $this->model->check_user()){
+					$user = $this->model->findById($id);
 					$_SESSION['username']= $_POST['username'];
-					$_SESSION['password']= $_POST['password'];
-					$_SESSION['id']= $id;
+					$_SESSION['avatar']  = $user['avatar'];
+					$_SESSION['id']      = $id;
 					if(isset($_POST['remember_me'])){
 						setcookie("username", $_POST['username'], time()+1000, "/");
-						setcookie("password", $_POST['password'], time()+1000, "/");
-						setcookie("id", $id, time()+1000, "/");
+						setcookie("avatar"  , $user['avatar']   , time()+1000, "/");
+						setcookie("id"      , $id               , time()+1000, "/");
 					}
 					header("Location: ".PATH."/index.php?controller=category&action=show&page=1");
 				}
@@ -115,32 +118,20 @@
 		}
 
 		function check_cookie(){
-			if(isset($_COOKIE['username']) && isset($_COOKIE['password']) && isset($_COOKIE['id'])){
+			if(isset($_COOKIE['username']) && isset($_COOKIE['id'])){
 				$_SESSION['username']= $_COOKIE['username'];
-				$_SESSION['password']= $_COOKIE['password'];
+				$_SESSION['avatar']= $_COOKIE['avatar'];
 				$_SESSION['id']      = $_COOKIE['id'];
 				header("Location: ".PATH."/index.php?controller=category&action=show&page=1");
 			}
 		}
 
-		function check_user(){
-			if(isset($_POST['login'])){
-				$this->conn = $this->model->connect_db();
-				$sql = "SELECT id, username, password FROM users";
-				$query = $this->conn->query($sql);
-				while ($row = $query->fetch_array(MYSQLI_NUM)) {
-					if($_POST['username'] == $row['1'] && md5($_POST['password'])== $row['2']){
-						return $row['0'];
-					} 
-				}
-			} 
-		}
 		public function logout(){
 			unset($_SESSION['username']);
-			unset($_SESSION['password']);
+			unset($_SESSION['avatar']);
 			unset($_SESSION['id']);
 			setcookie("username", "", time()-1000, "/");
-			setcookie("password", "", time()-1000, "/");
+			setcookie("avatar", "", time()-1000, "/");
 			setcookie("id", "", time()-1000, "/");
 			header("Location: ".PATH);
 		}

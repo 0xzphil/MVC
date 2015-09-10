@@ -9,17 +9,7 @@
 
     <div class="admin">
         <div class="image">
-            <?php
-                // Load avatar image
-                $imgLoad = ['jpg', 'jpeg', 'png', 'gif'];
-                foreach ($imgLoad as $value) {
-                    if(file_exists("uploads/user/".$_SESSION['username'].".".$value)){
-                        $my_avatar = "uploads/user/".$_SESSION['username'].".".$value;
-                }
-                if(!isset($my_avatar)) $my_avatar = "uploads/user/default.jpg";
-            }
-            ?>
-            <img src="<?php echo PATH; ?>/<?php echo $my_avatar ; ?>"  height="100" width="50" class="img-polaroid"/>
+            <img src="<?php echo PATH; ?>/<?php echo $_SESSION['avatar'] ; ?>"  height="100" width="50" class="img-polaroid"/>
         </div>
         <ul class="control">
             <li><span class="icon-cog"></span> <a href="index.php?controller=user&action=edit_starting&id=<?php echo $_SESSION['id']; ?>">Update Profile</a></li>

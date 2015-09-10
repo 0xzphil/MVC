@@ -44,24 +44,15 @@
                     	<div class="row-form">
                             <div class="span3">Password:</div>
                             <?php if(isset($error['password'])) echo $error['password']; ?>
-                            <div class="span9"><input type="text" name="password" placeholder="some text value..."/></div>
+                            <div class="span9"><input type="password" name="password" placeholder="" /></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Avatar:</div>
-                            <?php if(isset($error['avatar'])) echo $error['avatar']; ?>
+
                             <div class="span9">
-                            <?php
-                                // Load image
-                                $imgLoad = ['jpg', 'jpeg', 'png', 'gif'];
-                                foreach ($imgLoad as $value) {
-                                    if(file_exists("uploads/".$_GET['controller']."/".$user['username'].".".$value)){
-                                        $link = "uploads/".$_GET['controller']."/".$user['username'].".".$value;
-                                }
-                                if(!isset($link)) $link = "uploads/".$_GET['controller']."/default.jpg";
-                            }
-                            ?>
-                            <img src="<?php echo PATH; ?>/<?php echo $link; ?>"  height="100" width="100" ><br/>
+                            <img src="<?php echo $user['avatar'];?>" height="100" width="100" >
+                            <?php if(isset($error['avatar'])) echo $error['avatar']; ?><br/>
                             <input type="file" name="avatar">
                             </div>
                             <div class="clear"></div>
@@ -72,8 +63,8 @@
                             <div class="span9">
                                 <select name="activate">
                                     <option value="0">choose a option...</option>
-                                    <option value="Activate" autofocus>Activate</option>
-                                    <option value="Deactivate">Deactivate</option>
+                                    <option value="Activate" <?php if($user['activate']=='Activate'){ ; ?> selected="" <?php }; ?> >Activate</option>
+                                    <option value="Deactivate" <?php if($user['activate']=='Deactivate'){ ; ?> selected="" <?php }; ?> >Deactivate</option>
                                 </select>
                             </div>
                             <div class="clear"></div>

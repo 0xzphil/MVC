@@ -38,7 +38,7 @@
                             <div class="span9">
                                 <select name="activate">
                                         <option value="0">choose a option...</option>
-                                        <option value="Activate">Activate</option>
+                                        <option value="Activate" selected="">Activate</option>
                                         <option value="Deactivate">Deactivate</option>
                                 </select>
                             </div>

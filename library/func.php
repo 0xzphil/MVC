@@ -10,12 +10,15 @@
 		}
 
 		function upload_image(){
-			$upload_dir= "uploads/".$_GET['controller']."/";
-			$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
-			$imgfileType = pathinfo($file_dir, PATHINFO_EXTENSION);
-			$_FILES['avatar']['name'] = $_POST['username'].".".$imgfileType;
-			$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
-			move_uploaded_file($_FILES['avatar']['tmp_name'], $file_dir);
+			if(is_uploaded_file($_FILES['avatar']['tmp_name'])){
+				$upload_dir= "uploads/".$_GET['controller']."/";
+				$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
+				$imgfileType = pathinfo($file_dir, PATHINFO_EXTENSION);
+				$_FILES['avatar']['name'] = $_POST['username'].".".$imgfileType;
+				$file_dir = $upload_dir.basename($_FILES['avatar']['name']);
+				move_uploaded_file($_FILES['avatar']['tmp_name'], $file_dir);
+				return $file_dir;
+			} else return "uploads/".$_GET['controller']."/default.jpg";
 		}
 	}
 ?>
